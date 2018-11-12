@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import CloudGraph from './components/CloudGraph';
+import LeafletMap from './components/LeafletMap';
 
 class App extends Component {
   constructor(props) {
