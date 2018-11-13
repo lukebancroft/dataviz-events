@@ -1,30 +1,31 @@
 import React from 'react';
 import france from '../france.json';
 
-export default class CloudGraph extends React.Component {
-  // Tooltip on hover for dept and region name + stats
+export default class PointMap extends React.Component {
   // Darker colour for higher event frequency per department
   // Bubbles for event density
-  // Zoom on map
-  render() {
+
+  componentDidMount() {
     this.drawFrance();
+  }
+
+  render() {
     return (
-        <div id="cloudGraph" style={{width: "850px", height: "600px", overflow: "hidden", border: "1px"}}>
+        <div id="pointMap">
         </div>
     );
   }
-
   
   drawFrance() {
     //Width and height
-    var width = 850;
-    var height = 600;
+    var width = 650;
+    var height = 500;
 
     var zoom = window.d3.zoom()
       .scaleExtent([1 / 2, 4])
       .on("zoom", zoomed);
 
-    var canvas = window.d3.select("#cloudGraph").append("svg")
+    var canvas = window.d3.select("#pointMap").append("svg")
       .attr("width", width)
       .attr("height", height)
       .attr("align","center")
@@ -61,7 +62,7 @@ export default class CloudGraph extends React.Component {
       var path = window.d3.geoPath()
         .projection(projection);
 
-      var areas = group.append("path")
+      group.append("path")
         .attr("d", path)
         .attr("class", "area")
         .attr("fill", "steelblue");
@@ -86,7 +87,6 @@ export default class CloudGraph extends React.Component {
               }
           })
           .attr("r", 2)
-          .call(zoom)
           .style("fill", "yellow")
           .style("opacity", 0.75);
 

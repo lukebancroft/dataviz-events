@@ -1,5 +1,5 @@
 import React from 'react';
-import france from '../france.json';
+//import france from '../france.json';
 
 export default class CloudGraph extends React.Component {
   // Tooltip on hover for dept and region name + stats

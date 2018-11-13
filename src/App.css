@@ -45,7 +45,19 @@ div.tooltip {
   pointer-events: none;
 }
 
+.container-fluid {
+  height: 100%;
+  position: absolute;
+}
+
+.row {
+  height: inherit;
+}
 
 #leafletMap { 
   height: 360px;
+}
+
+#sidebar {
+  padding: 0px;
 }
