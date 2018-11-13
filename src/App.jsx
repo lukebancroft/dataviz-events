@@ -40,7 +40,11 @@ class App extends Component {
                   payants={this.state.payants}
                   moyenne={this.state.moyenne}  
                 />
-                {this.getGraph()}
+
+                <div id="loader"></div>
+                <div id="graph" className="animate-bottom">
+                  {this.getGraph()}
+                </div>
             </div>
           </div>
         </div>
@@ -105,7 +109,11 @@ class App extends Component {
             }
           });
           moyenne = Object.keys(groupedByDate).length / this.state.nbEvents;
-          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons });
+          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons }, () => {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("graph").style.display = "block";
+            document.getElementById("menu-content").style.pointerEvents = "all";
+          });
         })
   }
 }

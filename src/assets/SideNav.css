@@ -14,7 +14,7 @@
     line-height: 50px;
     display: block;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
   }
   
   .nav-side-menu ul,
@@ -79,6 +79,7 @@
   .nav-side-menu li a {
     text-decoration: none;
     color: #e1ffff;
+    width: -webkit-fill-available;
   }
   
   .nav-side-menu li a i {
@@ -94,6 +95,11 @@
     -o-transition: all 1s ease;
     -ms-transition: all 1s ease;
     transition: all 1s ease;
+  }
+
+  #menu-content {
+    pointer-events: none;
+    text-align: left;
   }
 
   .topbar {
