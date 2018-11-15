@@ -9,6 +9,10 @@ export default class PointMap extends React.Component {
     this.drawFrance();
   }
 
+  componentDidUpdate() {
+    this.drawFrance();
+  }
+
   render() {
     return (
         <div id="pointMap">
@@ -17,6 +21,9 @@ export default class PointMap extends React.Component {
   }
   
   drawFrance() {
+    //Empty div in case grap needs redrawing
+    document.getElementById("pointMap").innerHTML = "";
+
     //Width and height
     var width = 650;
     var height = 500;

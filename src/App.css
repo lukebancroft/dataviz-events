@@ -46,7 +46,6 @@ div.tooltip {
 }
 
 .container-fluid {
-  height: 100%;
   position: absolute;
 }
 
@@ -64,6 +63,7 @@ div.tooltip {
 
 #sidebar {
   padding: 0px;
+  min-height: 100vh;
 }
 
 #loader {
@@ -81,6 +81,10 @@ div.tooltip {
   height: 120px;
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
+}
+
+#filter-group {
+  pointer-events: none;
 }
 
 @-webkit-keyframes spin {
@@ -110,4 +114,13 @@ div.tooltip {
 @keyframes animatebottom { 
   from{ bottom:-100px; opacity:0 } 
   to{ bottom:0; opacity:1 }
+}
+
+.input-group-prepend {
+  display: block;
+}
+
+svg {
+  border: 1px solid black;
+  box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.11), -10px -10px 10px -2px rgba(0,0,0,0.11);
 }
