@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import './App.css';
 import PointMap from './components/PointMap';
+import HeatMapCal from './components/HeatMapCal';
 import CounterCards from './components/CounterCards';
 import SideNav from './components/SideNav';
 import Filters from './components/Filters';
@@ -21,7 +22,8 @@ class App extends Component {
       gratuits: 0,
       payants: 0,
       moyenne: 0,
-      locations:[]
+      locations:[],
+      eventsPerDate: []
     }
   }
 
@@ -106,8 +108,6 @@ class App extends Component {
     }
     queryBuilder = (queryBuilder.length > 0) ? "(" + queryBuilder + ")" : queryBuilder;
 
-    console.log(queryBuilder);
-
     this.setState({nbEvents: nbEvents, query: queryBuilder}, () => {
       this.enableLoader();
       this.getEvents();
@@ -134,7 +134,9 @@ class App extends Component {
                 locations={this.state.locations}
               />;
     } else if (this.state.graph === 'calendar') {
-        return 'calendar';
+        return <HeatMapCal 
+                  eventsPerDate={this.state.eventsPerDate}
+                />;
     }
     else if (this.state.graph === 'pie') {
         return 'pie';
@@ -180,8 +182,9 @@ class App extends Component {
               }
             }
           });
+          console.log(groupedByDate);
           moyenne = Object.keys(groupedByDate).length / this.state.nbEvents;
-          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons }, () => {
+          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate }, () => {
             this.disableLoader();
           });
         })
