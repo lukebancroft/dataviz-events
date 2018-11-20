@@ -15,7 +15,7 @@ class App extends Component {
       graph: '',
       nbEvents: 1000,
       type: 'All',
-      startDate: moment(),
+      startDate: moment().subtract(1, 'years'),
       endDate: moment(),
       query: '',
       count: 0,
