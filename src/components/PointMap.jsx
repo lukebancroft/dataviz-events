@@ -4,6 +4,10 @@ import france from '../france.json';
 export default class PointMap extends React.Component {
   // Darker colour for higher event frequency per department
   // Bubbles for event density
+  constructor(props) {
+		super(props);
+    this.drawFrance = this.drawFrance.bind(this);
+  }
 
   componentDidMount() {
     this.drawFrance();
@@ -15,8 +19,11 @@ export default class PointMap extends React.Component {
 
   render() {
     return (
+      <div>
+        <button type="button" style={{marginBottom: "10px"}} className="btn btn-warning" onClick={this.drawFrance}>Recenter</button>
         <div id="pointMap">
         </div>
+      </div>
     );
   }
   

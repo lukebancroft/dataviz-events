@@ -182,7 +182,6 @@ class App extends Component {
               }
             }
           });
-          console.log(groupedByDate);
           moyenne = Object.keys(groupedByDate).length / this.state.nbEvents;
           this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate }, () => {
             this.disableLoader();

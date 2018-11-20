@@ -23,7 +23,8 @@ export default class Filters extends React.Component {
 
   render() {
     return (
-        <div className="row" id="filter-group">
+        <div className="row jumbotron" style={{paddingTop: "8px", paddingBottom: "8px"}} id="filter-group">
+            <h3 style={{textDecoration: "underline" }}>Filter data :</h3>
             <div className="input-group col-md-12">
                 <div className="input-group-prepend">
                     <label className="input-group-text" htmlFor="rowSizeSelect">Number of events</label>
@@ -76,7 +77,9 @@ export default class Filters extends React.Component {
                     dateFormat="DD/MM/YYYY"
                 />
             </div>
-            <button type="button" className="btn btn-primary" onClick={this.handleApplyFilters}>Apply</button>
+            <div className="col-lg-12 col-md-12">
+                <button type="button" style={{float: "right", marginTop: "5px"}} className="btn btn-primary" onClick={this.handleApplyFilters}>Apply</button>
+            </div>
         </div>
     );
   }

@@ -25,7 +25,7 @@ export default class heatMapCal extends React.Component {
     var title="Number of events per day";
     var units=" events";
     var breaks=[1,25,50,100,150];
-    var colours=["#ffffd4","#fed98e","#fe9929","#d95f0e","#993404"];
+    var colours=["#ffefb6","#FEC269","#fe9929","#d95f0e","#993404"];
     
     //general layout information
     var cellSize = 17;
@@ -92,11 +92,10 @@ export default class heatMapCal extends React.Component {
         cals.append("g")
             .attr("id","alldays")
             .selectAll(".day")
-            .data(function(d) { console.log(window.d3.timeDays(moment(d.key+"-01-01").toDate(), moment((parseInt(d.key) + 1)+"-01-01").toDate())); return window.d3.timeDays(moment(d.key+"-01-01").toDate(), moment((parseInt(d.key) + 1)+"-01-01").toDate()); })
+            .data(function(d) { return window.d3.timeDays(moment(d.key+"-01-01").toDate(), moment((parseInt(d.key) + 1)+"-01-01").toDate()); })
             .enter().append("rect")
             .attr("id",function(d) {
                 return "_"+moment(d).format("YYYY-MM-DD");
-                //return toolDate(d.date)+":\n"+d.value+" dead or missing";
             })
             .attr("class", "day")
             .attr("width", cellSize)
@@ -104,7 +103,7 @@ export default class heatMapCal extends React.Component {
             .attr("fill", "#ffffff")
             .attr("stroke", "#ccc")
             .attr("x", function(d) {
-                return xOffset+calX+(moment(d, "YYYY-MM-DD").week() * cellSize);
+                return xOffset+calX+(window.d3.timeWeek.count( window.d3.timeYear( d ), d ) * cellSize);
             })
             .attr("y", function(d) { return calY+(moment(d, "YYYY-MM-DD").day() * cellSize); })
             .datum(window.d3.timeFormat("%d-%m-%Y"));
@@ -138,7 +137,7 @@ export default class heatMapCal extends React.Component {
             .attr("stroke","#ccc")
             .attr("width",cellSize)
             .attr("height",cellSize)
-            .attr("x", function(d){ return xOffset+calX+(moment(d, "YYYY-MM-DD").week() * cellSize);})
+            .attr("x", function(d){ return xOffset+calX+(window.d3.timeWeek.count( window.d3.timeYear( moment(d, "YYYY-MM-DD").toDate() ), moment(d, "YYYY-MM-DD").toDate() ) * cellSize);})
             .attr("y", function(d) { return calY+(moment(d, "YYYY-MM-DD").day() * cellSize); })
             .attr("fill", function(d) {
                 if (data[d]<breaks[0]) {
@@ -183,7 +182,6 @@ export default class heatMapCal extends React.Component {
         
         var monthX = [];
         BB.forEach(function(d,i){
-            console.log(d);
             var boxCentre = d.width/2;
             monthX.push(xOffset+calX+d.x+boxCentre);
         });
@@ -244,9 +242,9 @@ export default class heatMapCal extends React.Component {
 
     //pure Bostock - compute and return monthly path data for any year
     function monthPath(t0) {
-        var t1 = new Date(moment(t0).year(), moment(t0).month() + 1, 0),
-            d0 = moment(t0).day(), w0 = moment(t0).week(),
-            d1 = moment(t1).day(), w1 = moment(t1).week();
+        var t1 = new Date( t0.getFullYear(), t0.getMonth() + 1, 0 ),
+            d0 = t0.getDay(), w0 = window.d3.timeWeek.count( window.d3.timeYear( t0 ), t0 ),
+            d1 = t1.getDay(), w1 = window.d3.timeWeek.count( window.d3.timeYear( t1 ), t1 );
         return "M" + (w0 + 1) * cellSize + "," + d0 * cellSize
             + "H" + w0 * cellSize + "V" + 7 * cellSize
             + "H" + w1 * cellSize + "V" + (d1 + 1) * cellSize
