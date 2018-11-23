@@ -7,7 +7,7 @@ import HeatMapCal from './components/HeatMapCal';
 import CounterCards from './components/CounterCards';
 import SideNav from './components/SideNav';
 import Filters from './components/Filters';
-
+import ChartPie from './components/ChartPie';
 class App extends Component {
   constructor(props) {
 		super(props);
@@ -23,7 +23,8 @@ class App extends Component {
       payants: 0,
       moyenne: 0,
       locations:[],
-      eventsPerDate: []
+      eventsPerDate: [],
+      departement_prix: []
     }
   }
 
@@ -139,7 +140,7 @@ class App extends Component {
                 />;
     }
     else if (this.state.graph === 'pie') {
-        return 'pie';
+        return <ChartPie departement_prix={this.state.departement_prix}/>;
     } else {
       return <div><p>Visualisation des données d'évènements</p><br/><p>[Mettre sujet et description ici]</p></div>
     }
@@ -159,9 +160,9 @@ class App extends Component {
           let gratuits = 0;
           let payants = 0;
           let moyenne = 0;
+          let departement_prix = [];
           Object.keys(res.data.records).forEach(function(key) {
             latlons.push(res.data.records[key].fields.latlon);
-
             let startDate = res.data.records[key].fields.date_start;
             if (startDate) {
               if (!groupedByDate[startDate]) {
@@ -175,9 +176,11 @@ class App extends Component {
             let tarif = res.data.records[key].fields.pricing_info;
             if (tarif) {
               if (tarif.toLowerCase().includes("libre") || tarif.toLowerCase().includes("gratuit")) {
+                departement_prix.push(res.data.records[key].fields.department+':graduit')
                 gratuits++;
               }
               else {
+                departement_prix.push(res.data.records[key].fields.department+':payant')
                 payants++;
               }
             }
@@ -185,7 +188,11 @@ class App extends Component {
           moyenne = Object.keys(groupedByDate).length / this.state.nbEvents;
           this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate }, () => {
             this.disableLoader();
+            
           });
+          this.setState({
+            departement_prix: departement_prix
+          },()=>console.log(this.state))
         })
   }
 }
