@@ -8,6 +8,7 @@ import CounterCards from './components/CounterCards';
 import SideNav from './components/SideNav';
 import Filters from './components/Filters';
 import ChartPie from './components/ChartPie';
+import Radar from './components/Radar/Radar';
 class App extends Component {
   constructor(props) {
 		super(props);
@@ -24,7 +25,8 @@ class App extends Component {
       moyenne: 0,
       locations:[],
       eventsPerDate: [],
-      departement_prix: []
+      departement_prix: [],
+      tags: []
     }
   }
 
@@ -138,9 +140,12 @@ class App extends Component {
         return <HeatMapCal 
                   eventsPerDate={this.state.eventsPerDate}
                 />;
-    }
-    else if (this.state.graph === 'pie') {
+    } else if (this.state.graph === 'pie') {
         return <ChartPie departement_prix={this.state.departement_prix}/>;
+    } else if (this.state.graph === 'radar') {
+      return <Radar
+                tags={this.state.tags}
+              />;
     } else {
       return <div><p>Visualisation des données d'évènements</p><br/><p>[Mettre sujet et description ici]</p></div>
     }
@@ -157,6 +162,7 @@ class App extends Component {
         .then(res => {
           let latlons = [];
           let groupedByDate = [];
+          let tagsBycity = [];
           let gratuits = 0;
           let payants = 0;
           let moyenne = 0;
@@ -184,9 +190,18 @@ class App extends Component {
                 payants++;
               }
             }
+
+            if (res.data.records[key].fields.tags === undefined) {
+              tagsBycity.push(JSON.parse('{ "city": "' + res.data.records[key].fields.city + '", "tags": "rien" }'));
+            } else if(res.data.records[key].fields.tags.includes('"')) {
+              res.data.records[key].fields.tags = res.data.records[key].fields.tags.replace(/"/gi, '');
+              tagsBycity.push(JSON.parse('{ "city": "' + res.data.records[key].fields.city + '", "tags": "' + res.data.records[key].fields.tags + '" }'));
+            } else {
+              tagsBycity.push(JSON.parse('{ "city": "' + res.data.records[key].fields.city + '", "tags": "' + res.data.records[key].fields.tags + '" }'));
+            }
           });
           moyenne = Object.keys(groupedByDate).length / this.state.nbEvents;
-          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate }, () => {
+          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate, tags: tagsBycity }, () => {
             this.disableLoader();
             
           });

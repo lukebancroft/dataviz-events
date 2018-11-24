@@ -33,6 +33,12 @@ export default class SideNav extends React.Component {
                                 <i className="fa fa-pie-chart fa-lg"></i> Pie chart
                             </a>
                         </li>
+
+                        <li onClick={ () => this.props.handleGraphChange('radar')}>
+                            <a href="#0">
+                                <i className="fa fa-first-order fa-lg"></i> Radar chart
+                            </a>
+                        </li>
                     </ul>
             </div>
         </div>
