@@ -38,15 +38,10 @@ export default class Filters extends React.Component {
                         <optgroup label="Short loading time">
                             <option>100</option>
                             <option>1000</option>
-                            <option>5000</option>
                         </optgroup>
                         <optgroup label="Long loading time">
+                            <option>5000</option>
                             <option>10000</option>
-                            <option>25000</option>
-                            <option>50000</option>
-                            <option>100000</option>
-                            <option>350000</option>
-                            <option>500000</option>
                         </optgroup>
                     </select>
                 </div>
@@ -125,13 +120,13 @@ export default class Filters extends React.Component {
                 </div>
                 <div className="input-group col-lg-4 col-md-12 col-sm-12">
                     <div className="input-group-prepend">
-                        <label className="input-group-text" htmlFor="deptSelect">Département</label>
+                        <label className="input-group-text" htmlFor="deptSelect">Department</label>
                     </div>
                     <input type="text" id="deptSelect" className="form-control" placeholder="Enter dept name..." ref={this.departement}></input>
                 </div>
                 <div className="input-group col-lg-4 col-md-12 col-sm-12">
                     <div className="input-group-prepend">
-                        <label className="input-group-text" htmlFor="citySelect">Ville</label>
+                        <label className="input-group-text" htmlFor="citySelect">City</label>
                     </div>
                     <input type="text" id="citySelect" className="form-control" placeholder="Enter city name..." ref={this.city}></input>
                 </div>

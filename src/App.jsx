@@ -184,7 +184,9 @@ class App extends Component {
                   eventsPerDate={this.state.eventsPerDate}
                 />;
     } else if (this.state.graph === 'pie') {
-        return <ChartPie departement_prix={this.state.departement_prix}/>;
+        return <ChartPie 
+                  departement_prix={this.state.departement_prix}
+                />;
     } else if (this.state.graph === 'radar') {
       return <Radar
                 tags={this.state.tags}
@@ -192,6 +194,30 @@ class App extends Component {
     } else {
       return <div><p>Visualisation des données d'évènements</p><br/><p>[Mettre sujet et description ici]</p></div>
     }
+  }
+
+  /* RETURN MORE THAN 10 000 RECORDS */
+  /* NOT ALLOWED BY OPENDATASOFT     */
+  /* IF TERMS CHANGE, GETEVENTS()    */
+  /* MUST RETURN API CALL RESULT     */
+  async getData() {
+    let loops, loopRows;
+
+    // Determine how many API calls need to be made
+    if (this.state.nbEvents > 10000) {
+      loops = this.state.nbEvents / 10000;
+      loopRows = 10000;
+    } else {
+      loops = 1;
+      loopRows = this.state.nbEvents;
+    }
+    for (let i = 0; i <= loops - 1; i++) {
+      // Request data as many times as necessary
+      await this.getEvents((i*loopRows), loopRows);
+    }
+    //////////////////////
+    /* Handle data here */
+    //////////////////////
   }
 
   getEvents() {
@@ -247,7 +273,7 @@ class App extends Component {
           this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate, tags: tagsBycity, departement_prix: departement_prix }, () => {
             this.disableLoader();
           });
-        })
+        });
   }
 }
 
