@@ -56,9 +56,6 @@ class ChartPie extends Component {
             "gratuit": "#6B8E23",
             "payant": "#FF4500",
         };
-        var colorsDepartment = {
-
-        }
 
         // Total size of all segments; we set this later, after loading the data.
         var totalSize;
@@ -100,14 +97,13 @@ class ChartPie extends Component {
                 .sum(function (d) { return d.size; })
                 .sort(function (a, b) { return b.value - a.value; });
 
-            console.log(root);
             // For efficiency, filter nodes to keep only those large enough to see.
             var nodes = partition(root).descendants()
                 .filter(function (d) {
                     return (d.x1 - d.x0 > 0.000); // 0.005 radians = 0.29 degrees
                 });
                 
-            var path = vis.data([json]).selectAll("path")
+            vis.data([json]).selectAll("path")
                 .data(nodes)
                 .enter().append("svg:path")
                 .attr("display", function (d) { return d.depth ? null : "none"; })
@@ -118,7 +114,6 @@ class ChartPie extends Component {
                 .style("border-width",0)
                 .on("mouseover", mouseover);
             
-            // console.log(path);
             // Add the mouseleave handler to the bounding circle.
             d3.select("#container").on("mouseleave", mouseleave);
 
@@ -295,7 +290,7 @@ class ChartPie extends Component {
 
         function toggleLegend() {
             var legend = d3.select("#legend");
-            if (legend.style("visibility") == "hidden") {
+            if (legend.style("visibility") === "hidden") {
                 legend.style("visibility", "");
             } else {
                 legend.style("visibility", "hidden");
@@ -308,14 +303,14 @@ class ChartPie extends Component {
             let dataRegrouped = Array.from(new Set(data));
             let arrayGrouped = [];
 
-            for (i = 0; i < dataRegrouped.length; i++) {
+            for (let i = 0; i < dataRegrouped.length; i++) {
                 var item = [];
                 item[0] = dataRegrouped[i];
                 item[1] = 0;
                 arrayGrouped.push(item);
                 
             };
-            for (i = 0; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 for (let j = 0; j < arrayGrouped.length; j++) {
                     if (arrayGrouped[j][0] === data[i]) {
                         arrayGrouped[j][1]++;
@@ -325,7 +320,7 @@ class ChartPie extends Component {
 
             var root = { "name": "root", "children": [] };
 
-            for (var i = 0; i < arrayGrouped.length; i++) {
+            for (let i = 0; i < arrayGrouped.length; i++) {
                 var sequence = arrayGrouped[i][0];
                 var size = +arrayGrouped[i][1];
                 if (isNaN(size)) { // e.g. if this is a header row
@@ -333,9 +328,8 @@ class ChartPie extends Component {
                 }
                 var parts = sequence.split(":");
                 colors[String(parts[0])] = getRandomColor();
-                console.log(colors);
                 var currentNode = root;
-                for (var j = 0; j < parts.length; j++) {
+                for (let j = 0; j < parts.length; j++) {
                     var children = currentNode["children"];
                     var nodeName = parts[j];
                     var childNode;
@@ -343,7 +337,7 @@ class ChartPie extends Component {
                         // Not yet at the end of the sequence; move down the tree.
                         var foundChild = false;
                         for (var k = 0; k < children.length; k++) {
-                            if (children[k]["name"] == nodeName) {
+                            if (children[k]["name"] === nodeName) {
                                 childNode = children[k];
                                 foundChild = true;
                                 break;

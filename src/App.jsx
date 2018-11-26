@@ -73,7 +73,7 @@ class App extends Component {
     this.setState({ graph: graph });
   }
 
-  applyFilters(nbEvents, type, startDate, endDate, region) {
+  applyFilters(nbEvents, type, startDate, endDate, region, department, city) {
     let queryBuilder = '';
     let isBuilt = false;
 
@@ -113,6 +113,18 @@ class App extends Component {
         queryBuilder += " AND ";
       }
       queryBuilder += this.getRegionsNames(region);
+    }
+    if (department) {
+      if (isBuilt) {
+        queryBuilder += " AND ";
+      }
+      queryBuilder += "(department:" + department + ")";
+    }
+    if (city) {
+      if (isBuilt) {
+        queryBuilder += " AND ";
+      }
+      queryBuilder += "(city:" + city + ")";
     }
     queryBuilder = (queryBuilder.length > 0) ? "(" + queryBuilder + ")" : queryBuilder;
 
@@ -232,13 +244,9 @@ class App extends Component {
             }
           });
           moyenne = Object.keys(groupedByDate).length / this.state.nbEvents;
-          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate, tags: tagsBycity }, () => {
+          this.setState({ count: res.data.nhits, gratuits: gratuits, payants: payants, moyenne: moyenne, locations: latlons, eventsPerDate: groupedByDate, tags: tagsBycity, departement_prix: departement_prix }, () => {
             this.disableLoader();
-            
           });
-          this.setState({
-            departement_prix: departement_prix
-          },()=>console.log(this.state))
         })
   }
 }

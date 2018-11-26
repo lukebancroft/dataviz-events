@@ -12,8 +12,11 @@ export default class Filters extends React.Component {
             type: this.props.type,
             startDate: this.props.startDate,
             endDate: this.props.endDate,
-            region: null
+            region: undefined
         }
+        this.departement = React.createRef();
+        this.city = React.createRef();
+
         this.handleApplyFilters = this.handleApplyFilters.bind(this);
         this.onNbEventsChange = this.onNbEventsChange.bind(this);
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
@@ -39,6 +42,11 @@ export default class Filters extends React.Component {
                         </optgroup>
                         <optgroup label="Long loading time">
                             <option>10000</option>
+                            <option>25000</option>
+                            <option>50000</option>
+                            <option>100000</option>
+                            <option>350000</option>
+                            <option>500000</option>
                         </optgroup>
                     </select>
                 </div>
@@ -56,7 +64,7 @@ export default class Filters extends React.Component {
             </div>
 
             <div className="input-group col-md-12">
-                <div className="input-group col-md-4 align-self-start">
+                <div className="input-group col-md-4">
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="startDateCal">Start date</label>
                     </div>
@@ -71,7 +79,7 @@ export default class Filters extends React.Component {
                         dateFormat="DD/MM/YYYY"
                     />
                 </div>
-                <div className="input-group col-md-4 col-sm-12 align-self-end">
+                <div className="input-group col-md-4 col-sm-12">
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="endDateCal">End date</label>
                     </div>
@@ -119,23 +127,13 @@ export default class Filters extends React.Component {
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="deptSelect">Département</label>
                     </div>
-                    <select className="custom-select" id="deptSelect" value={this.state.type} onChange={(e) => this.onTypeChange(e)}>
-                        <option>All</option>
-                        <option>Free</option>
-                        <option>Paid</option>
-                        <option>Unspecified</option>
-                    </select>
+                    <input type="text" id="deptSelect" className="form-control" placeholder="Enter dept name..." ref={this.departement}></input>
                 </div>
                 <div className="input-group col-lg-4 col-md-12 col-sm-12">
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="citySelect">Ville</label>
                     </div>
-                    <select className="custom-select" id="citySelect" value={this.state.type} onChange={(e) => this.onTypeChange(e)}>
-                        <option>All</option>
-                        <option>Free</option>
-                        <option>Paid</option>
-                        <option>Unspecified</option>
-                    </select>
+                    <input type="text" id="citySelect" className="form-control" placeholder="Enter city name..." ref={this.city}></input>
                 </div>
             </div>
 
@@ -147,7 +145,9 @@ export default class Filters extends React.Component {
   }
 
   handleApplyFilters() {
-    this.props.applyFilters(this.state.nbEvents, this.state.type, moment(this.state.startDate).format('YYYY-MM-DD'), moment(this.state.endDate).format('YYYY-MM-DD'), this.state.region)
+    let departement = (this.departement.current.value && this.departement.current.value.trim().length > 0) ? this.departement.current.value : undefined;
+    let city = (this.city.current.value && this.city.current.value.trim().length > 0) ? this.city.current.value : undefined;
+    this.props.applyFilters(this.state.nbEvents, this.state.type, moment(this.state.startDate).format('YYYY-MM-DD'), moment(this.state.endDate).format('YYYY-MM-DD'), this.state.region, departement, city);
   }
 
   onNbEventsChange(event) {
@@ -167,7 +167,7 @@ export default class Filters extends React.Component {
   }
 
   onRegionChange(event) {
-    let region = event.target.value === "Sélectionner..." ? null : event.target.value;
+    let region = event.target.value === "Sélectionner..." ? undefined : event.target.value;
     this.setState({region: region});
   }
 }

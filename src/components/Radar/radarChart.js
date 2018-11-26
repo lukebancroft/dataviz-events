@@ -62,10 +62,11 @@ export function RadarChart(id, data, options) {
 	
 	//Filter for the outside glow
 	var filter = g.append('defs').append('filter').attr('id','glow'),
-		feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur'),
-		feMerge = filter.append('feMerge'),
-		feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
-		feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
+		feMerge = filter.append('feMerge');
+		
+		filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur');
+		feMerge.append('feMergeNode').attr('in','coloredBlur');
+		feMerge.append('feMergeNode').attr('in','SourceGraphic');
 
 	/////////////////////////////////////////////////////////
 	/////////////// Draw the Circular grid //////////////////
@@ -305,7 +306,7 @@ export function RadarChart(id, data, options) {
 			dy = parseFloat(text.attr("dy")),
 			tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
 			
-		while (word = words.pop()) {
+		while (word === words.pop()) {
 		  line.push(word);
 		  tspan.text(line.join(" "));
 		  if (tspan.node().getComputedTextLength() > width) {
