@@ -56,7 +56,7 @@ class ChartPie extends Component {
         }
 
         // Total size of all segments; we set this later, after loading the data.
-        var totalSize = 1000;
+        var totalSize;
 
         var vis = d3.select("#chart").append("svg:svg")
             .attr("width", width)
@@ -119,7 +119,6 @@ class ChartPie extends Component {
 
             // Get total size of the tree = value of root node from partition.
             // console.log(path.datum().value);
-            // totalSize = path.datum().value;
 
         };
 
@@ -300,7 +299,7 @@ class ChartPie extends Component {
         createVisualization(buildHierarchy(data));
 
         function buildHierarchy(data) {
-
+            totalSize = data.length;
             let dataRegrouped = Array.from(new Set(data));
             let arrayGrouped = [];
 
