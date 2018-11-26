@@ -104,7 +104,7 @@ class ChartPie extends Component {
             // For efficiency, filter nodes to keep only those large enough to see.
             var nodes = partition(root).descendants()
                 .filter(function (d) {
-                    return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
+                    return (d.x1 - d.x0 > 0.000); // 0.005 radians = 0.29 degrees
                 });
                 
             var path = vis.data([json]).selectAll("path")
