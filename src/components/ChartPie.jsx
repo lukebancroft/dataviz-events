@@ -4,10 +4,17 @@ import '../assets/ChartPie.css'
 class ChartPie extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
         this.drawChartPie = this.drawChartPie.bind(this);
     }
+
+    componentDidMount() {
+        this.drawChartPie();
+    }
+    
+    componentDidUpdate() {
+        this.drawChartPie();
+    }
+    
     render() {
         const explanation = {
             visibility: "hidden"
@@ -15,19 +22,18 @@ class ChartPie extends Component {
         const legend = {
             visibility: "hidden"
         }
-        this.drawChartPie();
         return (
-            <div>
+            <div id="graphContainer">
                 <div id="main">
                     <div id="sequence"></div>
                     <div id="chart">
                         <div id="explanation" style={explanation}>
-                            <span id="percentage"></span><br />of totale event
+                            <span id="percentage"></span><br />of total events
                     </div>
                     </div>
                 </div>
                 <div id="sidebar">
-                    <input type="checkbox" id="togglelegend"/> Legend<br />
+                    <input type="checkbox" id="togglelegend"/> Legend<br/>
                     <div id="legend" style={legend}></div>
                 </div>
             </div>
@@ -35,7 +41,6 @@ class ChartPie extends Component {
         )
     }
     drawChartPie = () => {
-
         let data = this.props.departement_prix;
         var width = 750;
         var height = 600;
@@ -48,7 +53,7 @@ class ChartPie extends Component {
 
         // Mapping of step names to colors.
         var colors = {
-            "graduit": "#6B8E23",
+            "gratuit": "#6B8E23",
             "payant": "#FF4500",
         };
         var colorsDepartment = {
@@ -260,7 +265,7 @@ class ChartPie extends Component {
 
             // Dimensions of legend item: width, height, spacing, radius of rounded rect.
             var li = {
-                w: 75, h: 30, s: 3, r: 3
+                w: 120, h: 30, s: 3, r: 3
             };
 
             var legend = d3.select("#legend").append("svg:svg")

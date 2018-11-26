@@ -73,8 +73,7 @@ class App extends Component {
     this.setState({ graph: graph });
   }
 
-  applyFilters(nbEvents, type, startDate, endDate) {
-    //"(pricing_info:[libre OR gratuit])"
+  applyFilters(nbEvents, type, startDate, endDate, region) {
     let queryBuilder = '';
     let isBuilt = false;
 
@@ -109,6 +108,12 @@ class App extends Component {
         queryBuilder += " #null(pricing_info)"
       }
     }
+    if (region) {
+      if (isBuilt) {
+        queryBuilder += " AND ";
+      }
+      queryBuilder += this.getRegionsNames(region);
+    }
     queryBuilder = (queryBuilder.length > 0) ? "(" + queryBuilder + ")" : queryBuilder;
 
     this.setState({nbEvents: nbEvents, query: queryBuilder}, () => {
@@ -129,6 +134,32 @@ class App extends Component {
     document.getElementById("graph").style.display = "block";
     document.getElementById("menu-content").style.pointerEvents = "all";
     document.getElementById("filter-group").style.pointerEvents = "all";
+  }
+
+  getRegionsNames(region) {
+    let regionString = "";
+
+    //Get all names for corresponding regions
+    regionString = region === "Bourgogne-Franche-Compté" ? "(region:Bourgogne Franche Compté OR region:Bourgogne OR region:Franche Compté)" : regionString;
+    regionString = region === "Nouvelle-Aquitaine" ? "(region:Nouvelle Aquitaine OR region:Aquitaine Limousin Poitou Charentes OR region:Aquitaine OR region:Limousin OR region:Poitou Charentes)" : regionString;
+    regionString = region === "Normandie" ? "(region:Normandie OR region:Haute Normandie OR region:Basse Normandie)" : regionString;
+    regionString = region === "Grand-Est" ? "(region:Grand Est OR region:Alsace Champagne Ardenne Lorraine OR region:Alsace OR region:Champagne Ardenne OR region:Lorraine)" : regionString;
+    regionString = region === "Occitanie" ? "(region:Occitanie OR region:Languedoc Roussillon Midi Pyrénées OR region:Languedoc Roussillon OR region:Midi Pyrénées)" : regionString;
+    regionString = region === "Hauts-de-France" ? "(region:Hauts de France OR region:Nord Pas de Calais Picardie OR region:Nord Pas de Calais OR region:Picardie)" : regionString;
+    regionString = region === "Auvergne-Rhône-Alpes" ? "(region:Auvergne Rhône Alpes OR region:Auvergne OR region:Rhône Alpes)" : regionString;
+    regionString = region === "Bretagne" ? "(region:Bretagne)" : regionString;
+    regionString = region === "Centre-Val-de-Loire" ? "(region:Centre Val de Loire)" : regionString;
+    regionString = region === "Corse" ? "(region:Corse)" : regionString;
+    regionString = region === "Guyane" ? "(region:Guyane)" : regionString;
+    regionString = region === "Guadeloupe" ? "(region:Guadeloupe)" : regionString;
+    regionString = region === "Ile-de-France" ? "(region:Ile de France OR region:Idf)" : regionString;
+    regionString = region === "Martinique" ? "(region:Martinique)" : regionString;
+    regionString = region === "Mayotte" ? "(region:Mayotte)" : regionString;
+    regionString = region === "Pays-de-la-Loire" ? "(region:Pays de la Loire)" : regionString;
+    regionString = region === "Provence-Alpes-Cote-d-Azur" ? "(region:Provence Alpes Cote d'Azur OR region:Provence Alpes Cote d Azur OR region:PACA)" : regionString;
+    regionString = region === "Reunion" ? "(region:Réunion)" : regionString;
+
+    return regionString;
   }
 
   getGraph() {
@@ -182,7 +213,7 @@ class App extends Component {
             let tarif = res.data.records[key].fields.pricing_info;
             if (tarif) {
               if (tarif.toLowerCase().includes("libre") || tarif.toLowerCase().includes("gratuit")) {
-                departement_prix.push(res.data.records[key].fields.department+':graduit')
+                departement_prix.push(res.data.records[key].fields.department+':gratuit')
                 gratuits++;
               }
               else {
