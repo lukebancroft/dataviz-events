@@ -11,7 +11,8 @@ export default class Filters extends React.Component {
             nbEvents: this.props.nbEvents,
             type: this.props.type,
             startDate: this.props.startDate,
-            endDate: this.props.endDate 
+            endDate: this.props.endDate,
+            region: null
         }
         this.handleApplyFilters = this.handleApplyFilters.bind(this);
         this.onNbEventsChange = this.onNbEventsChange.bind(this);
@@ -26,57 +27,118 @@ export default class Filters extends React.Component {
         <div className="row jumbotron" style={{paddingTop: "8px", paddingBottom: "8px"}} id="filter-group">
             <h3 style={{textDecoration: "underline" }}>Filter data :</h3>
             <div className="input-group col-md-12">
-                <div className="input-group-prepend">
-                    <label className="input-group-text" htmlFor="rowSizeSelect">Number of events</label>
+                <div className="input-group col-md-4 col-sm-12">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text" htmlFor="rowSizeSelect">Number of events</label>
+                    </div>
+                    <select className="custom-select" id="rowSizeSelect" value={this.state.nbEvents} onChange={(e) => this.onNbEventsChange(e)}>
+                        <optgroup label="Short loading time">
+                            <option>100</option>
+                            <option>1000</option>
+                            <option>5000</option>
+                        </optgroup>
+                        <optgroup label="Long loading time">
+                            <option>10000</option>
+                        </optgroup>
+                    </select>
                 </div>
-                <select className="custom-select" id="rowSizeSelect" value={this.state.nbEvents} onChange={(e) => this.onNbEventsChange(e)}>
-                    <option>100</option>
-                    <option>1000</option>
-                    <option>5000</option>
-                    <option>10000</option>
-                </select>
-
-                <div className="input-group-prepend">
-                    <label className="input-group-text" htmlFor="rowSizeSelect">Type</label>
+                <div className="input-group col-md-4 col-sm-12">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text" htmlFor="eventTypeSelect">Type</label>
+                    </div>
+                    <select className="custom-select" id="eventTypeSelect" value={this.state.type} onChange={(e) => this.onTypeChange(e)}>
+                        <option>All</option>
+                        <option>Free</option>
+                        <option>Paid</option>
+                        <option>Unspecified</option>
+                    </select>
                 </div>
-                <select className="custom-select" id="rowSizeSelect" value={this.state.type} onChange={(e) => this.onTypeChange(e)}>
-                    <option>All</option>
-                    <option>Free</option>
-                    <option>Paid</option>
-                    <option>Unspecified</option>
-                </select>
             </div>
-            
 
-            <div className="input-group col-lg-8 col-md-12">
-                <div className="input-group-prepend">
-                    <label className="input-group-text" htmlFor="startDateCal">Start date</label>
+            <div className="input-group col-md-12">
+                <div className="input-group col-md-4 align-self-start">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text" htmlFor="startDateCal">Start date</label>
+                    </div>
+                    <DatePicker 
+                        className="form-control"
+                        id="startDateCal"
+                        selected={this.state.startDate}
+                        selectsStart
+                        startDate={this.state.startDate}
+                        endDate={this.state.endDate}
+                        onChange={this.handleChangeStartDate}
+                        dateFormat="DD/MM/YYYY"
+                    />
                 </div>
-                <DatePicker 
-                    className="form-control"
-                    id="startDateCal"
-                    selected={this.state.startDate}
-                    selectsStart
-                    startDate={this.state.startDate}
-                    endDate={this.state.endDate}
-                    onChange={this.handleChangeStartDate}
-                    dateFormat="DD/MM/YYYY"
-                />
-
-                <div className="input-group-prepend">
-                    <label className="input-group-text" htmlFor="endDateCal">End date</label>
+                <div className="input-group col-md-4 col-sm-12 align-self-end">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text" htmlFor="endDateCal">End date</label>
+                    </div>
+                    <DatePicker 
+                        className="form-control"
+                        id="endDateCal"
+                        selected={this.state.endDate}
+                        selectsEnd
+                        startDate={this.state.startDate}
+                        endDate={this.state.endDate}
+                        onChange={this.handleChangeEndDate}
+                        dateFormat="DD/MM/YYYY"
+                    />
                 </div>
-                <DatePicker 
-                    className="form-control"
-                    id="endDateCal"
-                    selected={this.state.endDate}
-                    selectsEnd
-                    startDate={this.state.startDate}
-                    endDate={this.state.endDate}
-                    onChange={this.handleChangeEndDate}
-                    dateFormat="DD/MM/YYYY"
-                />
             </div>
+
+            <div className="input-group col-md-12">
+                <div className="input-group col-lg-4 col-md-12 col-sm-12">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text" htmlFor="regionSelect">Region</label>
+                    </div>
+                    <select className="custom-select" id="regionSelect" value={this.state.region} onChange={(e) => this.onRegionChange(e)}>
+                        <option>Sélectionner...</option>
+                        <option>Auvergne-Rhône-Alpes</option>
+                        <option>Bourgogne-Franche-Compté</option>
+                        <option>Bretagne</option>
+                        <option>Centre-Val-de-Loire</option>
+                        <option>Corse</option>
+                        <option>Grand-Est</option>
+                        <option>Guadeloupe</option>
+                        <option>Guyane</option>
+                        <option>Hauts-de-France</option>
+                        <option>Ile-de-France</option>
+                        <option>Martinique</option>
+                        <option>Mayotte</option>
+                        <option>Normandie</option>
+                        <option>Nouvelle-Aquitaine</option>
+                        <option>Occitanie</option>
+                        <option>Pays-de-la-Loire</option>
+                        <option>Provence-Alpes-Cote-d-Azur</option>
+                        <option>Reunion</option>
+                    </select>
+                </div>
+                <div className="input-group col-lg-4 col-md-12 col-sm-12">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text" htmlFor="deptSelect">Département</label>
+                    </div>
+                    <select className="custom-select" id="deptSelect" value={this.state.type} onChange={(e) => this.onTypeChange(e)}>
+                        <option>All</option>
+                        <option>Free</option>
+                        <option>Paid</option>
+                        <option>Unspecified</option>
+                    </select>
+                </div>
+                <div className="input-group col-lg-4 col-md-12 col-sm-12">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text" htmlFor="citySelect">Ville</label>
+                    </div>
+                    <select className="custom-select" id="citySelect" value={this.state.type} onChange={(e) => this.onTypeChange(e)}>
+                        <option>All</option>
+                        <option>Free</option>
+                        <option>Paid</option>
+                        <option>Unspecified</option>
+                    </select>
+                </div>
+            </div>
+
             <div className="col-lg-12 col-md-12">
                 <button type="button" style={{float: "right", marginTop: "5px"}} className="btn btn-primary" onClick={this.handleApplyFilters}>Apply</button>
             </div>
@@ -85,7 +147,7 @@ export default class Filters extends React.Component {
   }
 
   handleApplyFilters() {
-    this.props.applyFilters(this.state.nbEvents, this.state.type, moment(this.state.startDate).format('YYYY-MM-DD'), moment(this.state.endDate).format('YYYY-MM-DD'))
+    this.props.applyFilters(this.state.nbEvents, this.state.type, moment(this.state.startDate).format('YYYY-MM-DD'), moment(this.state.endDate).format('YYYY-MM-DD'), this.state.region)
   }
 
   onNbEventsChange(event) {
@@ -102,5 +164,10 @@ export default class Filters extends React.Component {
 
   handleChangeEndDate(date) {
     this.setState({ endDate: date });
+  }
+
+  onRegionChange(event) {
+    let region = event.target.value === "Sélectionner..." ? null : event.target.value;
+    this.setState({region: region});
   }
 }
