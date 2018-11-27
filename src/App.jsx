@@ -192,7 +192,15 @@ class App extends Component {
                 tags={this.state.tags}
               />;
     } else {
-      return <div><p>Visualisation des données d'évènements</p><br/><p>[Mettre sujet et description ici]</p></div>
+      return <div>
+              <p><strong>Visualisation des données d'évènements</strong></p>
+              <br/>
+              <p>Mise en oeuvre de plusieures techniques de visualisation des données graphiques afin 
+                de les interpréter de façons différentes et d'en cerner les tendances, les regroupements
+                et pour permettre de prédire de manière hypothétique les informations sur les prochains 
+                évènements à venir.
+              </p>
+            </div>
     }
   }
 
