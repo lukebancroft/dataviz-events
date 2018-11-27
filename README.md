@@ -1,6 +1,9 @@
 # dataviz-events
 dataviz-events permet la visualisation de données d'évènements publics en France [données source : https://bit.ly/2zl8s4B]
 
+Cet outil peut-être particulièrement utile pour les organisateurs d'évènements afin de déterminer à quels lieux et pendant quelles périodes de l'année il serait propice d'effectuer un certain type d'évènement.
+Il peut également être interéssant pour un utilisateur lambda de voir quels évènements sont prévus autour de lui dans le futur.
+
 Les données sont représentées de 4 manières différentes dans l'application :
 - Une **carte intéractive** de la France sur laquelle les évènements sont placés en fonction de leur longitude et leur latitude. Au survol de chaque département, son nom et sa région sont affichés. Il est possible de déplacer la carte, de zoomer/dézoomer et de la recentrer à sa position initiale.
 

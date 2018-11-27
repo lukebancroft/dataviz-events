@@ -200,6 +200,9 @@ class App extends Component {
                 et pour permettre de prédire de manière hypothétique les informations sur les prochains 
                 évènements à venir.
               </p>
+              <br/>
+              <p>Cet outil peut-être particulièrement utile pour les organisateurs d'évènements afin de déterminer à quels lieux et pendant quelles périodes de l'année il serait propice d'effectuer un certain type d'évènement.
+                Il peut également être interéssant pour un utilisateur lambda de voir quels évènements sont prévus autour de lui dans le futur.</p>
             </div>
     }
   }
